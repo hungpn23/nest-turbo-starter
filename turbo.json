@@ -1,0 +1,86 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
+    },
+    "start:dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ]
+    },
+    "build:clean": {
+      "cache": false,
+      "persistent": true
+    },
+    "start:prod": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "migration:up": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": [
+        "build"
+      ]
+    }
+  },
+  "globalDependencies": [
+    ".env",
+    "tsconfig.json"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "JWT_SECRET",
+    "REDIS_URL",
+    "KAFKA_BROKERS",
+    "KAFKA_HEARTBEAT_INTERVAL",
+    "KAFKA_SESSION_TIMEOUT",
+    "KAFKA_SASL_ENABLED",
+    "KAFKA_SASL_MECHANISM",
+    "KAFKA_SASL_USERNAME",
+    "KAFKA_SASL_PASSWORD",
+    "CALL_SERVICE_TIMEOUT",
+    "JWT_SECRET",
+    "JWT_ACCESS_TOKEN_EXPIRES_IN",
+    "JWT_REFRESH_TOKEN_EXPIRES_IN",
+    "JWT_ISSUER",
+    "TCP_AUTH_SERVICE_HOST",
+    "TCP_AUTH_SERVICE_PORT",
+    "TCP_USER_SERVICE_HOST",
+    "TCP_USER_SERVICE_PORT",
+    "TCP_NOTIFICATION_SERVICE_HOST",
+    "TCP_NOTIFICATION_SERVICE_PORT",
+    "AWS_SES_SENDER",
+    "AWS_SES_REGION",
+    "AWS_SES_ACCESS_KEY_ID",
+    "AWS_SES_ACCESS_SECRET_ACCESS_KEY",
+    "AWS_S3_REGION",
+    "AWS_S3_ACCESS_KEY_ID",
+    "AWS_S3_SECRET_ACCESS_KEY",
+    "AWS_S3_BUCKET_NAME",
+    "AWS_S3_URL"
+  ]
+}

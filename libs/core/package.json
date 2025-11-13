@@ -1,0 +1,41 @@
+{
+  "name": "@app/core",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:clean": "rimraf dist && pnpm build",
+    "build": "npx tsc -p tsconfig.json"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "require": "./dist/*.js"
+    }
+  },
+  "dependencies": {
+    "@app/common": "workspace:*",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
+    "@nestjs/microservices": "^10.4.20",
+    "rxjs": "^7.8.1",
+    "lodash": "^4.17.21",
+    "@aws-sdk/client-s3": "^3.821.0",
+    "@aws-sdk/client-ses": "^3.808.0",
+    "@aws-sdk/s3-request-presigner": "^3.821.0",
+    "nest-winston": "^1.10.2",
+    "winston": "^3.17.0",
+    "firebase-admin": "^13.5.0",
+    "google-auth-library": "^9.15.1",
+    "axios": "^1.10.0",
+    "ioredis": "^5.6.1"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}

@@ -1,0 +1,1 @@
+#prettier --check "apps/**/src/**/*.ts" "libs/**/src/**/*.ts"
