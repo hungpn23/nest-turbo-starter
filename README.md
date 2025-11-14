@@ -5,11 +5,13 @@ A high-performance, monorepo microservices platform built with NestJS, optimized
 ## 🚀 Getting Started
 
 ### 🏗️ System Architecture
-This project implements a robust, containerized microservices architecture designed for high availability and scalability. All core services—built on NestJS and Node.js—reside within a secure Private Subnet, adhering to the principle of service autonomy where each microservice owns its PostgreSQL database. External client requests are strictly managed by Apache APISIX, which serves as the central API Gateway for routing, security, and policy enforcement via HTTP. Internal service-to-service communication is handled via efficient TCP connections, while Kafka is optionally integrated to enable scalable, asynchronous communication and event-driven processing, minimizing service coupling.
 
 <p align="center">
   <img src="docs/images/architecture.png" alt="Nest Turbo Starter Microservices Architecture" width="342"/>
 </p>
+
+This project implements a robust, containerized microservices architecture designed for high availability and scalability. All core services-built on NestJS and Node.js-reside within a secure Private Subnet, adhering to the principle of service autonomy where each microservice owns its PostgreSQL database. External client requests are strictly managed by Apache APISIX, which serves as the central API Gateway for routing, security, and policy enforcement via HTTP. Internal service-to-service communication is handled via efficient TCP connections, while Kafka is optionally integrated to enable scalable, asynchronous communication and event-driven processing, minimizing service coupling.
+
 
 ---
 
@@ -371,6 +373,27 @@ docker compose run --rm kong-deck gateway sync /app/kong-dev.yaml
 | Kafka UI      | [http://localhost:18082](http://localhost:18082) |
 | Kong Manager  | [http://localhost:18086](http://localhost:18086) |
 
+---
+# 🔐 Demo API — Sign-Up & Login (cURL)
+
+## 1️⃣ Sign-Up
+```bash
+    curl --location --request GET 'http://0.0.0.0:9080/auth-service/api/auth/sign-up' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "email": "test@example.com",
+        "password": "12345678Aa@"
+    }'
+```
+## 2️⃣ Login
+```bash
+    curl --location --request POST 'http://0.0.0.0:9080/auth-service/api/auth/login' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "email": "test@example.com",
+        "password": "12345678Aa@"
+    }'
+```
 ---
 
 # 📘 Notes
