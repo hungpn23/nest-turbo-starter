@@ -7,9 +7,9 @@ import {
   tcpConfiguration,
 } from '@app/common';
 import { HttpLoggerMiddleware } from '@app/common';
-import { RedisModule } from '@app/core';
+import { MicroserviceModule, MicroserviceName, RedisModule } from '@app/core';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule, ConfigType } from '@nestjs/config';
+import { ConfigModule, ConfigService, ConfigType } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { appConfiguration } from 'src/config';
@@ -20,6 +20,7 @@ import { AuthModule } from './auth';
 import { EmailModule } from './email';
 import { SendMailModule } from './send-mail';
 import { AppAuthGuard } from '../guards/app-auth.guard';
+import { Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -65,19 +66,19 @@ import { AppAuthGuard } from '../guards/app-auth.guard';
     //   }),
     //   inject: [appConfiguration.KEY],
     // }),
-    // MicroserviceModule.registerAsync([
-    //   {
-    //     name: MicroserviceName.UserService,
-    //     transport: Transport.TCP,
-    //     inject: [ConfigService],
-    //     useFactory: (configService: ConfigService) => {
-    //       const userTcpURLConfig = configService.get('tcp.userService');
-    //       return {
-    //         ...userTcpURLConfig,
-    //       };
-    //     },
-    //   },
-    // ]),
+    MicroserviceModule.registerAsync([
+      {
+        name: MicroserviceName.UserService,
+        transport: Transport.TCP,
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          const userTcpURLConfig = configService.get('tcp.userService');
+          return {
+            ...userTcpURLConfig,
+          };
+        },
+      },
+    ]),
     // Business Logic Modules
     AuthModule,
     SendMailModule,

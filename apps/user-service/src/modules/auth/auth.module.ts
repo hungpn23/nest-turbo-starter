@@ -5,6 +5,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtAuthStrategy } from 'src/modules/auth/strategies';
 import { GatewayAuthStrategy } from './strategies/gateway-auth.strategy';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { User } from '../../data-access/user';
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { GatewayAuthStrategy } from './strategies/gateway-auth.strategy';
       }),
       inject: [jwtConfiguration.KEY],
     }),
+    MikroOrmModule.forFeature([User]),
     PassportModule,
   ],
   providers: [JwtAuthStrategy, GatewayAuthStrategy],

@@ -16,6 +16,4 @@ export interface UserRequestPayload {
   email: string;
   role?: Role;
   emailVerified?: boolean;
-  iss?: string;
-  key?: string;
 }

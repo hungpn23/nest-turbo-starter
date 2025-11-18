@@ -1,10 +1,11 @@
-import { jwtConfiguration } from '@app/common';
+import { ERROR_RESPONSE, jwtConfiguration, JwtTokenType, ServerException } from '@app/common';
 import { UserRequestPayload } from '@app/common';
 import { RedisService } from '@app/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UserRepository } from '../../../data-access/user';
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
@@ -12,6 +13,7 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
     private redisService: RedisService,
     @Inject(jwtConfiguration.KEY)
     private jwtConfig: ConfigType<typeof jwtConfiguration>,
+    private readonly userRepo: UserRepository,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -22,8 +24,8 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
 
   async validate(payload: any): Promise<UserRequestPayload> {
     const { id, email, jti, type, role, iss } = payload;
-    /*if (type !== JwtTokenType.AccessToken)
-      throw new ServerException(ERROR_RESPONSE.INVALID_TOKEN_USAGE);
+    if (type !== JwtTokenType.AccessToken)
+      throw new ServerException(ERROR_RESPONSE.UNAUTHORIZED);
 
     // Check valid token
     const userTokenKey = this.redisService.getUserTokenKey(id, jti);
@@ -33,13 +35,12 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') {
     const user = await this.userRepo.findOne({ id });
     if (!user) throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
     if (!user.isActive) throw new ServerException(ERROR_RESPONSE.USER_DEACTIVATED);
-*/
+
     return {
       id,
       email,
       jti,
       role,
-      iss,
       emailVerified: true,
     };
   }

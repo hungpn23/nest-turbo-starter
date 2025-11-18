@@ -50,7 +50,7 @@ export class UserService {
   }
 
   async getUser(data: GetUserDataDto): Promise<GetUserResponseDto> {
-    const user = await this.userRepo.findOne({ email: data.email });
+    const user = await this.userRepo.findOne(data);
     if (!user) {
       throw new ServerException(ERROR_RESPONSE.USER_NOT_FOUND);
     }
