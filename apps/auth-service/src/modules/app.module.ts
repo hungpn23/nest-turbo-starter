@@ -46,8 +46,7 @@ import { AuthModule } from './auth';
         appConfig: ConfigType<typeof appConfiguration>,
         appCommonConfig: ConfigType<typeof appCommonConfiguration>,
       ) => {
-        console.log("appCommonConfig: ", appCommonConfig);
-        return getWinstonConfig(appConfig.appName, appCommonConfig.isProductionEnv);
+        return getWinstonConfig(appConfig.appName, appCommonConfig.nodeEnv);
       },
       inject: [appConfiguration.KEY, appCommonConfiguration.KEY],
     }),

@@ -2,11 +2,14 @@ import * as winston from 'winston';
 import { INestApplication, LoggerService } from '@nestjs/common';
 import chalk from 'chalk';
 import { WinstonModuleOptions } from 'nest-winston';
+import { NodeEnv } from '../enums';
 
 export function getWinstonConfig(
   appName: string,
-  isProductionEnv: boolean,
+  nodeEnv: NodeEnv,
 ): WinstonModuleOptions {
+  const isCriticalEnv = [NodeEnv.Production, NodeEnv.Staging].includes(nodeEnv);
+
   const consoleFormat = winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     winston.format.colorize({ level: true, message: true }),
@@ -25,8 +28,7 @@ export function getWinstonConfig(
       let metadataOutput = '';
       if (Object.keys(metadata).length > 0) {
         // Format metadata nicely for console
-        if (isProductionEnv) {
-          // Compact format for production
+        if (isCriticalEnv) {
           metadataOutput = ` | ${Object.entries(metadata)
             .map(([key, value]) => `${key}: ${value}`)
             .join(' | ')}`;
@@ -48,7 +50,7 @@ export function getWinstonConfig(
     transports: [
       // Console transport
       new winston.transports.Console({
-        level: isProductionEnv ? 'info' : 'debug',
+        level: isCriticalEnv ? 'info' : 'debug',
         format: consoleFormat,
         handleExceptions: true,
       }),
@@ -57,7 +59,7 @@ export function getWinstonConfig(
 };
 
 interface LogBootstrapOptions {
-  isProductionEnv: boolean;
+  nodeEnv: NodeEnv;
   logger: LoggerService;
   appPort: number;
   tcpListener?: Record<string, any>;
@@ -67,9 +69,9 @@ export function logBootstrapInfo(
   app: INestApplication,
   logOptions: LogBootstrapOptions,
 ): void {
-  const { tcpListener, isProductionEnv, logger, appPort } = logOptions;
+  const { tcpListener, nodeEnv, logger, appPort } = logOptions;
 
-  if (isProductionEnv) {
+  if (nodeEnv === NodeEnv.Production) {
     logger.log({
       message: `Application is running on port ${appPort}`,
       context: 'Application',

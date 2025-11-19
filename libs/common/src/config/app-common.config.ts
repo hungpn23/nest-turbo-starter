@@ -1,8 +1,8 @@
-import { NodeEnv } from '@app/common';
+import { NodeEnv } from '../enums';
 import { registerAs } from '@nestjs/config';
 
 export const getAppCommonConfig = () => ({
-  isProductionEnv: process.env.NODE_ENV === NodeEnv.Production,
+  nodeEnv: process.env.NODE_ENV as NodeEnv || NodeEnv.Local,
   frontendUrl: process.env.FRONTEND_URL,
   timezone: process.env.TZ || "UTC",
 });
