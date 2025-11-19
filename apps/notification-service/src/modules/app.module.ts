@@ -44,7 +44,7 @@ import { Transport } from '@nestjs/microservices';
         appConfig: ConfigType<typeof appConfiguration>,
         appCommonConfig: ConfigType<typeof appCommonConfiguration>
       ) => {
-        return getWinstonConfig(appConfig.appName, appCommonConfig.isProductionEnv);
+        return getWinstonConfig(appConfig.appName, appCommonConfig.nodeEnv);
       },
       inject: [appConfiguration.KEY, appCommonConfiguration.KEY],
     }),

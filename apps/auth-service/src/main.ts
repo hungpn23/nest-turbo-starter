@@ -10,8 +10,8 @@ import { AppModule } from './modules/app.module';
 
 async function bootstrap() {
   const { appName, appPort } = getAppConfig();
-  const { isProductionEnv } = getAppCommonConfig();
-  const logger = WinstonModule.createLogger(getWinstonConfig(appName, isProductionEnv));
+  const { nodeEnv } = getAppCommonConfig();
+  const logger = WinstonModule.createLogger(getWinstonConfig(appName, nodeEnv));
 
   const app = await NestFactory.create(AppModule, {
     logger,
@@ -40,7 +40,7 @@ async function bootstrap() {
   await app.listen(appPort);
 
   logBootstrapInfo(app, {
-    isProductionEnv,
+    nodeEnv,
     logger,
     appPort,
   });
