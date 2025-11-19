@@ -63,9 +63,11 @@ Before you start, make sure you have the necessary tools installed (e.g., Node.j
 
 ## 💬 Feedback & Feature Requests
 
-- Open a Feature Request Issue for new ideas
-- Use the Bug Report template for problems
-- Discussion is welcomed in Issues and PR comments
+## 💬 Feedback & Feature Requests
+
+* **Bugs:** Please use our **[Bug Report Template](.github/ISSUE_TEMPLATE/bug_report.md)** to ensure you provide all necessary details for reproduction.
+* **New Ideas:** Open a **[Feature Request Template](.github/ISSUE_TEMPLATE/feature_request.md)** to discuss new additions or changes.
+* Discussion and feedback are highly welcomed in Issues and Pull Request (PR) comments.
 
 ---
 
