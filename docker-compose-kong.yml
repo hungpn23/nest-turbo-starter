@@ -2,7 +2,7 @@ version: '3'
 
 services:
   node:
-    container_name: ai_agent_node
+    container_name: nest_turbo_node
     extends:
       file: .docker/compose/nodejs/node.yml
       service: node
@@ -19,7 +19,7 @@ services:
       - .env
 
   db:
-    container_name: ai_agent_user_db
+    container_name: nest_turbo_user_db
     extends:
       file: .docker/compose/postgresql/postgresql.yml
       service: postgresql
@@ -37,7 +37,7 @@ services:
       - .env
 
   redis:
-    container_name: ai_agent_redis
+    container_name: nest_turbo_redis
     extends:
       file: .docker/compose/redis/redis.yml
       service: redis
@@ -50,7 +50,7 @@ services:
     command: redis-server --appendonly yes --dir /data
 
   redisinsight:
-    container_name: ai_agent_redisinsight
+    container_name: nest_turbo_redisinsight
     extends:
       file: .docker/compose/redis/redis.yml
       service: redisinsight
@@ -66,7 +66,7 @@ services:
       - nest-turbo-network
 
   kafka:
-    container_name: ai_agent_kafka
+    container_name: nest_turbo_kafka
     extends:
       file: .docker/compose/kafka/kafka.yml
       service: kafka
@@ -78,7 +78,7 @@ services:
       - '9082:9092'
 
   kafkaui:
-    container_name: ai_agent_kafka_ui
+    container_name: nest_turbo_kafka_ui
     extends:
       file: .docker/compose/kafka/kafka.yml
       service: kafka_ui
@@ -90,7 +90,7 @@ services:
       - '18082:8080'
 
   kong-ee-database:
-    container_name: ai_agent_kong_ee_database
+    container_name: nest_turbo_kong_ee_database
     extends:
       file: .docker/compose/postgresql/postgresql.yml
       service: postgresql
@@ -116,7 +116,7 @@ services:
     extends:
       file: .docker/compose/kong/kong.yml
       service: kong-bootstrap
-    container_name: ai_agent_kong_bootstrap
+    container_name: nest_turbo_kong_bootstrap
     networks:
       - nest-turbo-network
     depends_on:
@@ -138,7 +138,7 @@ services:
     extends:
       file: .docker/compose/kong/kong.yml
       service: kong-cp
-    container_name: ai_agent_kong_cp
+    container_name: nest_turbo_kong_cp
     networks:
       - nest-turbo-network
     environment:
@@ -172,7 +172,7 @@ services:
     extends:
       file: .docker/compose/kong/deck.yml
       service: deck
-    container_name: ai_agent_kong_deck
+    container_name: nest_turbo_kong_deck
     networks:
       - nest-turbo-network
     depends_on:
